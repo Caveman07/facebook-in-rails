@@ -1,0 +1,26 @@
+<h1>Profile Page</h1>
+<div class="user-info">
+  <div class="namepic">
+    <h3><%= @user.email %></h3>
+  </div>
+</div>
+<section class="main">
+  <div class="timeline">
+    <h6>Something here</h6>
+  </div>
+  <aside>
+    <div class="friendslist">
+      <% @user.friends.each do |friend|%>
+      <ul>
+        <li>
+          <p>
+            Friend email: <%=friend.email%>
+            <%= link_to "Profile", user_path(friend) %>
+            <%= link_to "add friend", friendships_path(:friend_id => friend.id), :method => :post %>
+          </p>
+        </li>
+      </ul>
+      <% end %>
+    </div>
+  </aside>
+</section>
