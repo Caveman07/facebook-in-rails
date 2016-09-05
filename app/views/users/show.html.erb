@@ -3,13 +3,38 @@
   <div class="namepic">
     <h3><%= @user.email %></h3>
   </div>
+
+  <% if current_user.id == params[:id].to_i %>
+    <div class>
+     <h4>Notifications</h4>
+        <% if @user.requested_friends.any? %>
+            <h3> Friend Requests</h3>
+            <% @user.requested_friends.each do |req_friend|%>
+            <ul>
+              <li>
+                <p>
+                  Friend email: <%=req_friend.email%>
+                  <%= link_to "Profile", user_path(req_friend) %>
+                  <%= link_to "add",     friendship_path(:id => Friendship.where(user_id: current_user.id, friend_id: req_friend.id, status: "pending"), friend_id: req_friend.id), method: :put %>
+                  <%= link_to "decline", friendship_path(:id => Friendship.where(user_id: current_user.id, friend_id: req_friend.id, status: "pending"), friend_id: req_friend.id), method: :delete %>
+                </p>
+              </li>
+            </ul>
+            <% end %>
+        <% end %>
+    </div>
+  <% end %>
 </div>
+
 <section class="main">
   <div class="timeline">
     <h6>Something here</h6>
   </div>
+
   <aside>
     <div class="friendslist">
+      <h3>Friends</h3>
+
       <% @user.friends.each do |friend|%>
       <ul>
         <li>

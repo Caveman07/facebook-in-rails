@@ -8,6 +8,7 @@ class UsersController < ApplicationController
     #need to list all the frinds or the link to all friends
     #need to list its own info and picture
     @user = User.find(params[:id])
+    # @friendship = Friendship.find_by_user_id_and_friend_id(@user, User.find(params[:id]))
 
   end
 

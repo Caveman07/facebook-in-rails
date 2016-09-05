@@ -14,21 +14,26 @@ class Friendship < ApplicationRecord
 
   def self.accept(user, friend)
     transaction do
-      accepted_at = Time.now
-      accept_one_side(user, friend, accepted_at)
-      accept_one_side(friend, user, accepted_at)
+      # accepted_at = Time.now
+      accept_one_side(user, friend)
+      accept_one_side(friend, user)
     end
   end
 
-  def self.accept_one_side(user, friend, accepted_at)
-    request = find_by_user_id_and_friend_id(user, friend)
-    request.status = 'accepted'
-    request.accepted_at = accepted_at
+  def self.accept_one_side(user, friend)
+    request = find_by_user_id_and_friend_id(user, friend).first
+    request.status = "accepted"
+    # request.accepted_at = accepted_at
     request.save!
   end
 
-  def find_by_user_id_and_friend_id(user, friend)
-    Friendship.where(user_id: user.id, friend_id: friend.id)
+  def self.decline(user, friend)
+    find_by_user_id_and_friend_id(user,friend).delete_all
+    find_by_user_id_and_friend_id(friend,user).delete_all
+  end
+
+  def self.find_by_user_id_and_friend_id(user, friend)
+    Friendship.where(["user_id = :user_id AND friend_id = :friend_id", { user_id: user.id, friend_id: friend.id }])
   end
 
   def self.friendship_exists?(user, friend, status)

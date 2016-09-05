@@ -15,9 +15,24 @@ class FriendshipsController < ApplicationController
       end
 
       def update
+        @user = User.find(current_user.id)
+        @friend = User.find(params[:friend_id])
+        if Friendship.accept(@user, @friend)
+            flash[:success] = "Friend accepted"
+            redirect_to :back
+        end
+
       end
 
       def destroy
+        @user = User.find(current_user.id)
+        @friend = User.find(params[:friend_id])
+        # @friendship = find_by_user_id_and_friend_id(@user, @friend)
+        if Friendship.decline(@user, @friend)
+          flash[:success] = "Friend declined"
+          redirect_to :back
+        end
+
       end
 
 
