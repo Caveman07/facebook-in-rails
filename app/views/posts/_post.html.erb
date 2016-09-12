@@ -1,0 +1,46 @@
+<div class="post-frame">
+
+  <%#= link_to gravatar_for(post.user),post.user %>
+  <span class="post-info">
+    <h4 class="post-user"><%= link_to post.user.name, user_path(post.user) %></h4>
+    <h4 class="post-time">•<%= time_ago_in_words(post.created_at) %></h4>
+  </span>
+
+  <span class="content">
+  <p><%= post.body %></p>
+  <%#= image_tag micropost.picture.url if micropost.picture? %>
+  </span>
+
+  <span class="post-action">
+
+    <div class="social">
+      <p>
+        <%= pluralize(post.count_likes, "like") %> •
+      </p>
+      <% if post.liked_by?(current_user) %>
+        <%= button_to "unlike", post_like_path(post.id, post.likes.find_by(user_id: current_user.id)), method: :delete %>
+      <% else %>
+        <%= button_to "like", post_likes_path(post.id) %>
+      <%#= button_to "comments", #some js action to open comments %>
+      <% end %>
+    </div>
+
+    <div class="post-manage">
+
+      <% if current_user?(post.user) %>
+          <%= link_to "delete", post, method: :delete,
+                                           data: { confirm: "You sure?" } %>
+        <% end %>
+    </div>
+  </span>
+
+    <div class="post-comments">
+      <h5>Comments</h5>
+      <%= render :partial => "comments/comment_form", :locals => {post: post} %>
+
+      <% if post.comments.any? %>
+        <%= render partial: 'shared/comments', locals: {post: post} %>
+      <% end %>
+    </div>
+
+</div>

@@ -8,8 +8,11 @@ class User < ApplicationRecord
   #associations
   has_many :friends, -> { where friendships: { status: 'accepted' }  }, :through => :friendships
   has_many :friendships,  :dependent => :destroy
-  has_many :pending_friends, -> { where friendships: { status: 'pending' }  }, :through => :friendships, :source => :friend, :class_name => "User"
+  has_many :pending_friends, -> { where friendships: { status: 'pending' }  }, :through => :friendships, :source => :friend, :class_name => "User", :dependent => :destroy
   has_many :requested_friends, -> { where friendships: { status: 'requested' }  }, :through => :friendships,:source => :friend,  :class_name => "User"
+  has_many :posts, :dependent => :destroy
+  has_many :likes, :dependent => :destroy
+  has_many :comments, :dependent => :destroy
 
 
   def self.from_omniauth(auth)
@@ -28,6 +31,12 @@ class User < ApplicationRecord
       end
     end
   end
+
+  def age
+    age = Date.today.year - self.dob
+  end
+
+
 
 
 end

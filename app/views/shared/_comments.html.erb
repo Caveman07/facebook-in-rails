@@ -1,0 +1,10 @@
+<ul class="comment">
+  <% post.comments.each do |c| %>
+  <li>
+    <h5><%= link_to c.user.name, user_path(c.user) %> </h4><br>
+    <p>
+      <%= c.content %>
+    </p>
+  </li>
+  <% end %>
+</ul>

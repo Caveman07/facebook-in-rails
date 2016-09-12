@@ -14,7 +14,6 @@ class Friendship < ApplicationRecord
 
   def self.accept(user, friend)
     transaction do
-      # accepted_at = Time.now
       accept_one_side(user, friend)
       accept_one_side(friend, user)
     end
@@ -23,7 +22,6 @@ class Friendship < ApplicationRecord
   def self.accept_one_side(user, friend)
     request = find_by_user_id_and_friend_id(user, friend).first
     request.status = "accepted"
-    # request.accepted_at = accepted_at
     request.save!
   end
 

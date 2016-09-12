@@ -1,8 +1,22 @@
 <h1>Profile Page</h1>
 <div class="user-info">
   <div class="namepic">
-    <h3><%= @user.email %></h3>
+    <h3><%= @user.name %></h3>
+    <h3><%= pluralize(@user.age, "year") %></h3>
   </div>
+
+
+  <% unless current_user == @user %>
+    <div friendship>
+
+        <% if current_user.friends.include?(@user) %>
+            <%= link_to "delete friend", friendship_path(:id => Friendship.find_by_user_id_and_friend_id(current_user, @user), :friend_id => @user.id), method: :delete %>
+        <% else %>
+            <%= link_to "add friend", friendships_path(:friend_id => @user.id), :method => :post %>
+        <% end %>
+
+      </div>
+  <% end %>
 
   <% if current_user.id == params[:id].to_i %>
     <div class>
@@ -13,8 +27,7 @@
             <ul>
               <li>
                 <p>
-                  Friend email: <%=req_friend.email%>
-                  <%= link_to "Profile", user_path(req_friend) %>
+                  <%= link_to req_friend.name, user_path(req_friend) %>
                   <%= link_to "add",     friendship_path(:id => Friendship.where(user_id: current_user.id, friend_id: req_friend.id, status: "pending"), friend_id: req_friend.id), method: :put %>
                   <%= link_to "decline", friendship_path(:id => Friendship.where(user_id: current_user.id, friend_id: req_friend.id, status: "pending"), friend_id: req_friend.id), method: :delete %>
                 </p>
@@ -28,8 +41,19 @@
 
 <section class="main">
   <div class="timeline">
-    <h6>Something here</h6>
-  </div>
+
+    <h3>Timeline</h3>
+        <% if current_user?(@user) %>
+            <div class="new-post">
+              <%= render 'posts/post_form' %>
+            </div>
+        <% end %>
+
+        <div class="posts">
+            <%= render @posts %>
+        </div>
+
+    </div>
 
   <aside>
     <div class="friendslist">
@@ -39,9 +63,13 @@
       <ul>
         <li>
           <p>
-            Friend email: <%=friend.email%>
-            <%= link_to "Profile", user_path(friend) %>
-            <%= link_to "add friend", friendships_path(:friend_id => friend.id), :method => :post %>
+            <%= link_to friend.name, user_path(friend) %>
+
+            <% if current_user.friends.include?(friend) || current_user == friend %>
+                <%= link_to "delete friend", friendship_path(:id => Friendship.find_by_user_id_and_friend_id(current_user, friend), :friend_id => friend.id), method: :delete %>
+            <% else %>
+                <%= link_to "add friend", friendships_path(:friend_id => friend.id), :method => :post %>
+            <% end %>
           </p>
         </li>
       </ul>
