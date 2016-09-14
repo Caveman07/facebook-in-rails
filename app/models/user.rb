@@ -14,6 +14,8 @@ class User < ApplicationRecord
   has_many :likes, :dependent => :destroy
   has_many :comments, :dependent => :destroy
 
+  validates_uniqueness_of :name, :case_sensitive => false
+
 
   def self.from_omniauth(auth)
     where(provider: auth.provider, uid: auth.uid).first_or_create do |user|

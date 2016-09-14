@@ -1,16 +1,26 @@
 class PostsController < ApplicationController
+  respond_to :html, :js
+
+
   def new
     @post = Post.new
   end
 
   def create
     @post = Post.new(post_params)
-    if @post.save!
-      flash.notice = "New post have created!"
-      redirect_to :back
-    else
-      flash.notice = "New post not created!"
-      redirect_to :back
+    respond_to do |format|
+      if @post.save!
+        flash.notice = "New post have created!"
+        format.html {redirect_to :back}
+        format.js
+        format.json {render action: "show",
+                    status: :created, location: @post}
+
+      else
+        flash.notice = "New post not created!"
+        format.html { redirect_to :back}
+        format.json { render json: @post.errors, status: :unprocessable_entity}
+      end
     end
   end
 

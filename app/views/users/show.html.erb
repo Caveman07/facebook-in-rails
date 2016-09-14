@@ -1,3 +1,5 @@
+
+<% provide(:title, "Profile page") %>
 <h1>Profile Page</h1>
 <div class="user-info">
   <div class="namepic">
@@ -7,7 +9,7 @@
 
 
   <% unless current_user == @user %>
-    <div friendship>
+    <div class="friendship">
 
         <% if current_user.friends.include?(@user) %>
             <%= link_to "delete friend", friendship_path(:id => Friendship.find_by_user_id_and_friend_id(current_user, @user), :friend_id => @user.id), method: :delete %>
@@ -19,7 +21,7 @@
   <% end %>
 
   <% if current_user.id == params[:id].to_i %>
-    <div class>
+    <div class="notifications">
      <h4>Notifications</h4>
         <% if @user.requested_friends.any? %>
             <h3> Friend Requests</h3>
@@ -44,12 +46,12 @@
 
     <h3>Timeline</h3>
         <% if current_user?(@user) %>
-            <div class="new-post">
+            <div id="new-post">
               <%= render 'posts/post_form' %>
             </div>
         <% end %>
 
-        <div class="posts">
+        <div id="posts">
             <%= render @posts %>
         </div>
 
