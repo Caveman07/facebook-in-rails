@@ -4,9 +4,11 @@ class LikesController < ApplicationController
 
   def create
     @post = Post.find(params[:post_id])
-    if @post.like_post_by(current_user)
-      redirect_to :back
-    end
+
+      if @post.like_post_by(current_user)
+        redirect_to :back
+      end
+    
   end
 
   def destroy

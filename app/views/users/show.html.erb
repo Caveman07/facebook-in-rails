@@ -5,6 +5,7 @@
   <div class="namepic">
     <h3><%= @user.name %></h3>
     <h3><%= pluralize(@user.age, "year") %></h3>
+    <%= image_tag @user.avatar.url  %>
   </div>
 
 
@@ -21,6 +22,12 @@
   <% end %>
 
   <% if current_user.id == params[:id].to_i %>
+
+    <div class="avatar-uploader">
+      <%= link_to "change avatar", edit_user_path(@user), id: "edit-user-avatar", remote: true %>
+      <%#= render "shared/avatar_uploader" %>
+    </div>
+
     <div class="notifications">
      <h4>Notifications</h4>
         <% if @user.requested_friends.any? %>

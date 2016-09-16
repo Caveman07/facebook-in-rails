@@ -15,6 +15,9 @@ gem 'uglifier', '>= 1.3.0'
 gem 'coffee-rails', '~> 4.2'
 # See https://github.com/rails/execjs#readme for more supported runtimes
 # gem 'therubyracer', platforms: :ruby
+gem 'carrierwave', '>= 1.0.0.beta', '< 2.0'
+
+gem "mini_magick"
 
 gem 'omniauth'
 

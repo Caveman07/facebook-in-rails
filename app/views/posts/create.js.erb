@@ -1,2 +1,5 @@
-$('#new-post').remove();
-$('#post-frame').append('<%= j render @post %>');
+//$('#new-post').remove();
+//$('#new_post').val('');
+$('#post-frame').prepend('<%= j render @post %>');
+//$('#new_post').val('');
+$('#form-text').val('');

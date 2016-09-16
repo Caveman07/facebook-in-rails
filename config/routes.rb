@@ -17,12 +17,12 @@ Rails.application.routes.draw do
   resources :users do
     resources :friends, only: [:index, :show]
   end
+
   resources :posts do
     resources :likes, only: [:create, :destroy]
-
+    resources :comments, only: [:create, :update, :destroy, :index]
   end
-  
-  resources :comments, only: [:create, :update, :destroy, :index]
+
 
   root :to => "pages#home"
 

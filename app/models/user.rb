@@ -15,6 +15,10 @@ class User < ApplicationRecord
   has_many :comments, :dependent => :destroy
 
   validates_uniqueness_of :name, :case_sensitive => false
+  validate :avatar_size
+
+  #avatar uploader
+  mount_uploader :avatar, AvatarUploader
 
 
   def self.from_omniauth(auth)
@@ -38,7 +42,12 @@ class User < ApplicationRecord
     age = Date.today.year - self.dob
   end
 
+    private
 
-
+    def avatar_size
+      if avatar.size > 5.megabytes
+        errors.add(:avatar, "should be less than 5MB")
+      end
+    end
 
 end

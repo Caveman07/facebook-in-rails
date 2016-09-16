@@ -12,6 +12,7 @@ require 'faker'
   dob = rand(1950..2000)
   user = User.new(email: email,
               password: "070490",
+              sex: ['male', 'female'].sample ,
               password_confirmation: "070490",
               name: name,
               dob: dob)

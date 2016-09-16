@@ -1,7 +1,13 @@
-<%= form_for @comment do |f| %>
+<%#= form_for post_comments_path(post.id) do |f| %>
+<%#= form_tag({controller: "comments", action: "create"}, method: "post", class: "nifty_form") do %>
+<%= form_for [post, comment] do |f| %>
   <%#= render "shared/errors", object:  %>
-  <%= f.text_field :content, placeholder: "comment.." %>
+  <%= f.text_field :content, placeholder: "comment..", id: "comment-content" %>
   <%= f.hidden_field :user_id, value: current_user.id %>
   <%= f.hidden_field :post_id, value: post.id %>
   <%= f.submit "Post", class: "btn btn-primary" %>
+  <%#= text_field_tag :content %>
+  <%#= hidden_field_tag :user_id, current_user.id %>
+  <%#= hidden_field_tag :post_id, post.id %>
+  <%#= submit_tag "Post", class: "btn btn-primary" %>
 <% end %>

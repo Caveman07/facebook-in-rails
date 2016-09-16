@@ -1,0 +1,12 @@
+
+<ul class="comments">
+  <% comments.each do |comment| %>
+    <li id="comment">
+      <%= comment.user.name %>
+      <%= comment.content %>
+      <% if current_user?(comment.user) %>
+          <%= link_to 'delete', post_comment_path(comment.post.id, comment.id), method: 'delete' %>
+      <% end %>
+    </li>
+  <% end %>
+</ul>

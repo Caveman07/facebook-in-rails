@@ -14,13 +14,13 @@
   <span class="post-action">
 
     <div class="social">
-      <p>
+      <span class="votes-count" data-id="<%= post.id %>">
         <%= pluralize(post.count_likes, "like") %> •
-      </p>
+      </span>
       <% if post.liked_by?(current_user) %>
         <%= button_to "unlike", post_like_path(post.id, post.likes.find_by(user_id: current_user.id)), method: :delete %>
       <% else %>
-        <%= button_to "like", post_likes_path(post.id) %>
+        <%= button_to "like", post_likes_path(post.id)%>
       <%#= button_to "comments", #some js action to open comments %>
       <% end %>
     </div>
@@ -36,10 +36,10 @@
 
     <div class="post-comments">
       <h5>Comments</h5>
-      <%= render :partial => "comments/comment_form", :locals => {post: post} %>
+      <%= render :partial => "comments/comment_form", locals: {comment: @comment, post: post} %>
 
       <% if post.comments.any? %>
-        <%= render partial: 'shared/comments', locals: {post: post} %>
+        <%= render partial: 'comments/comment', locals: {comments: post.comments} %>
       <% end %>
     </div>
 
