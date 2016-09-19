@@ -127,6 +127,32 @@
 
           <div class = "timeline-header">
             <h3 class="gead">TIMELINE</h3>
+            <div class="ui statistics" id = "center-stats">
+                <div class="statistic">
+                  <div class="value">
+                    <%= @user.posts.all.count %>
+                  </div>
+                  <div class="label">
+                    <%="Post".pluralize(@user.posts.all.count)%>
+                  </div>
+                </div>
+                <div class="statistic">
+                  <div class="value">
+                    <%=count_all_likes_of_posts_by(@user) %>
+                  </div>
+                  <div class="label">
+                    <%= "Like".pluralize(count_all_likes_of_posts_by(@user))%>
+                  </div>
+                </div>
+                <div class="statistic">
+                  <div class="value">
+                    <%=count_all_comments_of_posts_by(@user) %>
+                  </div>
+                  <div class="label">
+                    <%="Comment".pluralize(count_all_comments_of_posts_by(@user)) %>
+                  </div>
+                </div>
+              </div>
           </div>
 
           <div class="feed">

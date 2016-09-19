@@ -1,8 +1,16 @@
+<div class="new-post">
 <%= form_for @post do |f| %>
   <%#= render 'shared/error_messages', object: f.object %>
-  <div id="field">
-    <%= f.text_area :body, placeholder: "Compose new post...", id: "form-text" %>
+  <div class="ui form">
+      <div class="field">
+        <label>New post</label>
+        <%= f.text_area :body, placeholder: "Compose new post...", id: "form-text", rows: "2"  %>
+
+
+      </div>
+      <%= f.hidden_field :user_id, :value => current_user.id %>
+
+      <%= f.submit "Post", class: "mini ui blue button" %>
   </div>
-  <%= f.hidden_field :user_id, :value => current_user.id %>
-  <%= f.submit "Post", class: "btn btn-primary" %>
 <% end %>
+</div>
