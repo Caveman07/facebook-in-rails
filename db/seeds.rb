@@ -6,19 +6,19 @@ require 'faker'
 #
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
-20.times do
-  email = Faker::Internet.email
-  name = Faker::Name.name
-  dob = rand(1950..2000)
-  user = User.new(email: email,
-              password: "070490",
-              sex: ['male', 'female'].sample ,
-              password_confirmation: "070490",
-              name: name,
-              dob: dob)
-  user.skip_confirmation!
-  user.save!
-end
-  # User.where(id: 2..20).each do |user|
-  #   User.find(1).friendships.create!(friend_id: user.id, status: "accepted")
-  #   end
+# 20.times do
+#   email = Faker::Internet.email
+#   name = Faker::Name.name
+#   dob = rand(1950..2000)
+#   user = User.new(email: email,
+#               password: "070490",
+#               sex: ['male', 'female'].sample ,
+#               password_confirmation: "070490",
+#               name: name,
+#               dob: dob)
+#   user.skip_confirmation!
+#   user.save!
+# end
+  User.where(id: 108..120).each do |user|
+    User.find(107).friendships.create!(friend_id: user.id, status: "accepted")
+    end

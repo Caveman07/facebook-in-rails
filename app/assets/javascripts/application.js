@@ -13,4 +13,17 @@
 //= require jquery
 //= require jquery_ujs
 //= require turbolinks
+//= require semantic-ui
 //= require_tree .
+
+$(function() {
+   $('#show-sidebar').click(function() {
+     $('#show-sidebar').hide();
+     $('.menu.sidebar').sidebar('toggle');
+   });
+
+   $('#hide-sidebar').click(function() {
+     $('#show-sidebar').show();
+     $('.menu.sidebar').sidebar('toggle');
+   });
+ });

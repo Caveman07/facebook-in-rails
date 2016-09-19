@@ -1,88 +1,152 @@
 
 <% provide(:title, "Profile page") %>
-<h1>Profile Page</h1>
-<div class="user-info">
-  <div class="namepic">
-    <h3><%= @user.name %></h3>
-    <h3><%= pluralize(@user.age, "year") %></h3>
-    <%= image_tag @user.avatar.url  %>
-  </div>
+<div class="ui right inverted vertical menu sidebar">
 
-
-  <% unless current_user == @user %>
-    <div class="friendship">
-
-        <% if current_user.friends.include?(@user) %>
-            <%= link_to "delete friend", friendship_path(:id => Friendship.find_by_user_id_and_friend_id(current_user, @user), :friend_id => @user.id), method: :delete %>
-        <% else %>
-            <%= link_to "add friend", friendships_path(:friend_id => @user.id), :method => :post %>
-        <% end %>
-
-      </div>
-  <% end %>
-
-  <% if current_user.id == params[:id].to_i %>
-
-    <div class="avatar-uploader">
-      <%= link_to "change avatar", edit_user_path(@user), id: "edit-user-avatar", remote: true %>
-      <%#= render "shared/avatar_uploader" %>
+    <div class="item">
+      <a class="small-avatar"><%= image_tag @user.avatar.thumb.url%></a>
+      <a class="menu-name"><%= @user.name %></a>
     </div>
 
-    <div class="notifications">
-     <h4>Notifications</h4>
-        <% if @user.requested_friends.any? %>
-            <h3> Friend Requests</h3>
-            <% @user.requested_friends.each do |req_friend|%>
-            <ul>
-              <li>
-                <p>
-                  <%= link_to req_friend.name, user_path(req_friend) %>
-                  <%= link_to "add",     friendship_path(:id => Friendship.where(user_id: current_user.id, friend_id: req_friend.id, status: "pending"), friend_id: req_friend.id), method: :put %>
-                  <%= link_to "decline", friendship_path(:id => Friendship.where(user_id: current_user.id, friend_id: req_friend.id, status: "pending"), friend_id: req_friend.id), method: :delete %>
-                </p>
-              </li>
-            </ul>
-            <% end %>
-        <% end %>
-    </div>
-  <% end %>
+     <a class="item">
+       this is first
+     </a>
+     <a class="item">
+       this is second
+     </a>
+     <a class="item">
+       third ajd so on
+     </a>
+     <div class="item">
+       <a class="logout"><%= link_to "Log out", destroy_user_session_path, :method => :delete, class: "logout" %></a>
+     </div>
+
 </div>
 
-<section class="main">
-  <div class="timeline">
+<div class="pusher">
+  <div id="show-sidebar" class="button toggler">
 
-    <h3>Timeline</h3>
-        <% if current_user?(@user) %>
-            <div id="new-post">
-              <%= render 'posts/post_form' %>
+    <div id="show-sidebar" class="ui vertical animated teal button" tabindex="0">
+        <div class="hidden content">menu</div>
+        <div class="visible content">
+          <i class="user icon"></i>
+        </div>
+    </div>
+
+  </div>
+  <!-- Site content !-->
+
+
+      <div class="page-content">
+
+        <div class="user-info">
+
+          <div class="allign">
+
+            <div class="namepic">
+
+              <div class="pic">
+                  <%= image_tag @user.avatar.url  %>
+                  <% if current_user.id == params[:id].to_i %>
+                      <%= link_to "change avatar", edit_user_path(@user), id: "edit-user-avatar", class: "changeava" , remote: true %>
+                  <% end %>
+              </div>
+
+              <div class="name">
+                <h3 class="username"><%= @user.name %></h3>
+
+                <% unless current_user == @user %>
+                    <div class="friendship">
+
+                        <% if current_user.friends.include?(@user) %>
+
+                            <%= link_to "unfriend", friendship_path(:id => Friendship.find_by_user_id_and_friend_id(current_user, @user), :friend_id => @user.id), class: "mini ui grey basic button", method: :delete %>
+
+                        <% else %>
+
+                            <%= link_to "add friend", friendships_path(:friend_id => @user.id),class: "mini ui positive basic button", :method => :post %>
+
+                        <% end %>
+
+                    </div>
+                <% end %>
+
+              </div>
+
+              <div class"personal-info">
+
+                <h4 class="pi">Personal info</h4>
+
+                <div class="ui divider"></div>
+
+
+                    <p><b>Age:</b> <%= pluralize(@user.age, "year") %></p>
+                    <p><b>Sex:</b> <%= pluralize(@user.age, "year") %></p>
+                    <p><b>Occupation:</b> <%= pluralize(@user.age, "year") %></p>
+              </div>
+
+              <div class="ui divider"></div>
+
             </div>
-        <% end %>
 
-        <div id="posts">
-            <%= render @posts %>
+            <div class="friendslist">
+              <h4 class="pi">Friends (<%= @user.friends.count %>) </h4>
+
+
+
+              <div class="ui mini middle aligned selection list">
+                  <% @user.friends.each do |friend|%>
+                  <div class="item">
+
+                      <div class="right floated content">
+                          <% if current_user.friends.include?(friend) || current_user == friend %>
+                              <%= link_to "unfriend", friendship_path(:id => Friendship.find_by_user_id_and_friend_id(current_user, friend), :friend_id => friend.id), class: "mini ui grey basic button", method: :delete %>
+
+                          <% else %>
+                              <%= link_to "add", friendships_path(:friend_id => friend.id), class: "mini ui positive basic button", :method => :post %>
+                          <% end %>
+
+                      </div>
+
+                      <%= image_tag friend.avatar.thumb.url, class: "ui avatar image" %>
+
+                      <div class="content">
+                          <%= link_to friend.name, user_path(friend) %>
+                      </div>
+                  </div>
+                  <%end%>
+              </div>
+
+            </div>
+
+            <!-- align close -->
+          </div>
+
         </div>
 
-    </div>
+        <div class="timeline">
 
-  <aside>
-    <div class="friendslist">
-      <h3>Friends</h3>
+          <div class = "timeline-header">
+            <h3 class="gead">TIMELINE</h3>
+          </div>
 
-      <% @user.friends.each do |friend|%>
-      <ul>
-        <li>
-          <p>
-            <%= link_to friend.name, user_path(friend) %>
+          <div class="feed">
 
-            <% if current_user.friends.include?(friend) || current_user == friend %>
-                <%= link_to "delete friend", friendship_path(:id => Friendship.find_by_user_id_and_friend_id(current_user, friend), :friend_id => friend.id), method: :delete %>
-            <% else %>
-                <%= link_to "add friend", friendships_path(:friend_id => friend.id), :method => :post %>
-            <% end %>
-          </p>
-        </li>
-      </ul>
-      <% end %>
-    </div>
-  </aside>
-</section>
+              <% if current_user?(@user) %>
+                  <div id="new-post">
+                    <%= render 'posts/post_form' %>
+                  </div>
+              <% end %>
+
+              <div id="posts">
+                  <%= render @posts %>
+              </div>
+
+        </div>
+
+      </div>
+
+
+
+  </div>
+
+</div>

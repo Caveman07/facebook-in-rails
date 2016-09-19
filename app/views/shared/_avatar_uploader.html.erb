@@ -1,7 +1,7 @@
 <%= form_for(@user, html: { multipart: true },  :url => {:controller => "users", :action => "update" }) do |f| %>
   <span class="picture">
       <%= f.file_field :avatar, accept: 'image/jpeg,image/gif,image/png' %>
-      <%= f.submit "Post", class: "btn btn-primary" %>
+      <%= f.submit "upload", class: "mini ui teal button" %>
   </span>
 
 <% end %>
