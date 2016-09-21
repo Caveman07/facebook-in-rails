@@ -1,0 +1,35 @@
+<div class="card" id="card">
+    <div class="blurring dimmable image">
+      <div class="ui inverted dimmer">
+        <div class="content">
+          <div class="center">
+            <div class="ui primary button">Add Friend</div>
+          </div>
+        </div>
+      </div>
+      <!-- <img src="/images/kristy.png"> -->
+      <%= image_tag user.avatar.url, id: "index-user-img" %>
+    </div>
+    <div class="content">
+      <a class="header"><%= link_to user.name, user_path(user)%></a>
+      <div class="meta">
+        <span class="date">User since <%= user.created_at.year %></span>
+      </div>
+    </div>
+    <div class="extra content">
+      <span>
+        <i class="users icon"></i>
+        <%= user.friends.count %> Friends
+      </span>
+    </div>
+    <div class="ui bottom attached button">
+      <% if current_user.friends.include?(user) %>
+          <i class="minus icon"></i>
+          <%= link_to "Unfriend", friendship_path(:id => Friendship.find_by_user_id_and_friend_id(current_user, user), :friend_id => user.id), id: "deembutton", method: :delete %>
+      <% else %>
+          <i class="add icon"></i>
+          <%= link_to "Add Friend", friendships_path(:friend_id => user.id), id: "deembutton", :method => :post %>
+
+      <% end %>
+    </div>
+  </div>

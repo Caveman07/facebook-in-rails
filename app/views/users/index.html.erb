@@ -1,22 +1,36 @@
 <% provide(:title, "Users page") %>
 
 <div class="page-content">
+
     <div class="index-page-header">
-        <h3>All Users</h3>
-    </div>
-    <div class="main-content">
-        <div class="ui segment">
-              <!-- left rail start -->
-              <div class="ui left attached rail">
-                  <div class="ui segment">
-                      <p>
-                        Left Rail Content
-                      </p>
-                  </div>
-              </div>
-              <!-- left rail finish-->
-              <p>Some content</p>
-              <p>Some content</p>
+        <div class="page-describ">
+            <h1 class="page-header">All Users</h1>
+            <div class="sub header">
+              <p>
+                Listing all members of UZLS social network
+              </p>
+            </div>
         </div>
-    <!-- main content finish -->
     </div>
+
+    <div class="main-content">
+      <div class="ui segment" id="example1">
+
+          <div class="right ui rail" style="min-height: 262.531px;">
+              <div class="ui sticky" style="width: 272px !important; left: 1045px;" id="example2">
+                  <h3 class="ui header">Filter Users by</h3>
+                  <p class="item" ><%= link_to "Most posts", '#', class: "item" %></p>
+                  <p class="item" ><%= link_to "Most likes", '#', class: "item"%></p>
+                  <p class="item" ><%= link_to "Most friends", '#', class: "item" %></p>
+                  <p class="item" ><%= link_to "Age", '#',class: "item" %></p>
+                  <p class="item" ><%= link_to "Oldest member", '#',class: "item" %></p>
+              </div>
+          </div>
+        <div class="ui link cards">
+        <%= render @users %>
+      </div>
+
+      </div>
+    </div>
+    <!-- main content finish -->
+</div>
