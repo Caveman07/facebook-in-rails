@@ -16,7 +16,7 @@
  *= require semantic-ui
  */
 
- @import "semantic-ui";
+ /*@import "semantic-ui";*/
 
 .main-content {
   position: relative;
