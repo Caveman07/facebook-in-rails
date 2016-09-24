@@ -266,6 +266,13 @@ a.logout {
   margin-right: 1em;
 }
 
+.github-butn {
+  position: absolute;
+  right: 10px;
+  top: 10px;
+  z-index: 15;
+}
+
 
 .icon {
   z-index: 5;
@@ -291,7 +298,6 @@ a.logout {
 
 #logo {
   position: absolute;
-  margin-top: 10px;
   width: 100px;
   z-index: 15;
 }
