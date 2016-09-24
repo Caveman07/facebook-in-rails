@@ -1,166 +1,195 @@
 
 <% provide(:title, "Profile page") %>
-<div class="ui right inverted vertical menu sidebar">
+<!-- page content begin !-->
+<div class="page-content">
 
-    <div class="item">
-      <a class="small-avatar"><%= image_tag current_user.avatar.thumb.url%></a>
-      <a class="menu-name"><%= current_user.name %></a>
-    </div>
+    <div class="user-info">
+
+        <div class="allign">
+
+            <div class="namepic">
+
+                <div class="pic">
+                  <%= image_tag @user.avatar.url  %>
+                  <% if current_user.id == params[:id].to_i %>
+                      <%= link_to "change avatar", edit_user_path(@user), id: "edit-user-avatar", class: "changeava" , remote: true %>
+                  <% end %>
+                </div>
+
+                <div class="name">
+                        <h3 class="username"><%= @user.name %></h3>
+
+                        <% unless current_user == @user %>
+                            <div class="friendship">
+
+                                <% if Friendship.friendship_exists?(current_user, @user, "accepted") %>
+
+                                    <%= link_to "unfriend", friendship_path(:id => Friendship.find_by_user_id_and_friend_id(current_user, @user), :friend_id => @user.id), class: "mini ui grey basic button", method: :delete %>
 
 
-    <%= link_to "My profile", user_path(current_user.id), class: "item" %>
-    <%= link_to "All users", users_path, class: "item" %>
-    <%= link_to "Log out", destroy_user_session_path, :method => :delete, class: "item" %>
+                                <% elsif Friendship.friendship_exists?(current_user, @user, "pending") %>
+                                    <button class="mini ui disabled button">
+                                          <i class="user icon"></i>
+                                          Pending
 
+                                    </button>
 
-</div>
+                                <% else %>
 
-<div class="pusher">
-      <div id="show-sidebar" class="button toggler">
+                                    <%= link_to "add friend", friendships_path(:friend_id => @user.id),class: "mini ui positive basic button", :method => :post %>
 
-        <div id="show-sidebar" class="ui vertical animated teal button" tabindex="0">
-            <div class="hidden content">menu</div>
-            <div class="visible content">
-              <i class="user icon"></i>
+                                <% end %>
+
+                            </div>
+                        <% end %>
+
+                </div>
+
+                <div class"personal-info">
+
+                    <h4 class="pi">Personal info</h4>
+
+                    <div class="ui divider"></div>
+
+                        <div>
+                            <p><b>Age:</b> <%#= pluralize(@user.age, "year") %></p>
+                            <p><b>Sex:</b> <%= @user.sex %></p>
+                            <p><b>Occupation:</b> <%= @user.occupation %></p>
+                        </div>
+
+                    <div class="ui divider"></div>
+
+                </div>
             </div>
+
+            <div class="friendslist">
+
+                <h4 class="pi">Friends (<%= @user.friends.count %>) </h4>
+                <div class="ui mini middle aligned selection list">
+                    <% @user.friends.each do |friend|%>
+                            <div class="item">
+
+                                <!-- <div class="right floated content">
+                                    <% if current_user.friends.include?(friend) || current_user == friend %>
+                                        <%= link_to "unfriend", friendship_path(:id => Friendship.find_by_user_id_and_friend_id(current_user, friend), :friend_id => friend.id), class: "mini ui grey basic button", method: :delete %>
+
+                                    <% else %>
+                                        <%= link_to "add", friendships_path(:friend_id => friend.id), class: "mini ui positive basic button", :method => :post %>
+                                    <% end %>
+
+                                </div> -->
+
+                                <%= image_tag friend.avatar.thumb.url, class: "ui avatar image" %>
+
+                                <div class="content">
+                                    <%= link_to friend.name, user_path(friend) %>
+                                </div>
+                            </div>
+                    <%end%>
+                </div>
+
+            </div>
+
+
+
+            <% if current_user.id == params[:id].to_i %>
+
+                <% if current_user.requested_friends.any? %>
+
+                    <div class="notifications">
+                       <div class="ui divider"></div>
+                       <h4 class="pi" id = 'hey'>Friend Requests</h4>
+                       <div class="ui cards">
+                          <% @user.requested_friends.each do |req_friend|%>
+                              <div class="card">
+                                  <div class="content">
+                                        <%= image_tag req_friend.avatar.thumb.url , id: "circlethumb"%>
+                                        <div class="header", id: "reqfmargin">
+                                            <%= req_friend.name %>
+                                        </div>
+                                        <div class="meta">
+                                            <%= link_to "profile", user_path(req_friend) %>
+                                        </div>
+
+                                  </div>
+
+                                  <div class="extra content">
+                                    <div class="ui two buttons">
+                                      <div class="ui basic green button"><%= link_to "Approve",     friendship_path(:id => Friendship.where(user_id: current_user.id, friend_id: req_friend.id, status: "pending"), friend_id: req_friend.id), method: :put, id: "greenbutton" %></div>
+                                      <div class="ui basic red button"><%= link_to "Decline", friendship_path(:id => Friendship.where(user_id: current_user.id, friend_id: req_friend.id, status: "pending"), friend_id: req_friend.id), method: :delete, id: "redbutton" %></div>
+                                    </div>
+                                  </div>
+                              </div>
+                          <% end %>
+                       </div>
+                       <div class="ui divider"></div>
+
+                    </div>
+                    <!-- notifications close -->
+                <% end %>
+            <% end %>
+
+        </div>
+        <!-- align close -->
+    </div>
+    <!-- user info close -->
+    <div class="timeline">
+
+        <div class = "timeline-header">
+            <div class="ui statistics" id = "center-stats">
+                <div class="statistic">
+                  <div class="value">
+                    <%= @user.posts.all.count %>
+                  </div>
+                  <div class="label">
+                    <%="Post".pluralize(@user.posts.all.count)%>
+                  </div>
+                </div>
+                <div class="statistic">
+                  <div class="value">
+                    <%=count_all_likes_of_posts_by(@user) %>
+                  </div>
+                  <div class="label">
+                    <%= "Like".pluralize(count_all_likes_of_posts_by(@user))%>
+                  </div>
+                </div>
+                <div class="statistic">
+                  <div class="value">
+                    <%=count_all_comments_of_posts_by(@user) %>
+                  </div>
+                  <div class="label">
+                    <%="Comment".pluralize(count_all_comments_of_posts_by(@user)) %>
+                  </div>
+                </div>
+              </div>
         </div>
 
-      </div>
-      <!-- page content begin !-->
-      <div class="page-content">
+        <div class="feed">
 
-          <div class="user-info">
+            <% if current_user?(@user) %>
+                <div id="new-post">
+                    <%= render 'posts/post_form' %>
+                </div>
+            <% end %>
 
-              <div class="allign">
+            <div class="ui top attached tabular menu">
 
-                  <div class="namepic">
+                <a class="active item" data-tab="posts" id="blueish">Posts</a>
+                <a class="item" data-tab="feed" id="blueish">Feed</a>
 
-                      <div class="pic">
-                        <%= image_tag @user.avatar.url  %>
-                        <% if current_user.id == params[:id].to_i %>
-                            <%= link_to "change avatar", edit_user_path(@user), id: "edit-user-avatar", class: "changeava" , remote: true %>
-                        <% end %>
-                      </div>
+            </div>
+            <div class="ui bottom attached tab segment active" data-tab="posts" id="posts">
+              <%= render @posts %>
+            </div>
+            <div class="ui bottom attached tab segment" data-tab="feed">
+              <%#= render :partial => "product", :collection => @products, :as => :item %>
+              <%= render :partial => 'posts/post', :collection => @feed_items, :as => :post %>
+            </div>
 
-                      <div class="name">
-                              <h3 class="username"><%= @user.name %></h3>
-
-                              <% unless current_user == @user %>
-                                  <div class="friendship">
-
-                                      <% if current_user.friends.include?(@user) %>
-
-                                          <%= link_to "unfriend", friendship_path(:id => Friendship.find_by_user_id_and_friend_id(current_user, @user), :friend_id => @user.id), class: "mini ui grey basic button", method: :delete %>
-
-                                      <% else %>
-
-                                          <%= link_to "add friend", friendships_path(:friend_id => @user.id),class: "mini ui positive basic button", :method => :post %>
-
-                                      <% end %>
-
-                                  </div>
-                              <% end %>
-
-                      </div>
-
-                      <div class"personal-info">
-
-                          <h4 class="pi">Personal info</h4>
-
-                          <div class="ui divider"></div>
-
-                              <div>
-                                  <p><b>Age:</b> <%= pluralize(@user.age, "year") %></p>
-                                  <p><b>Sex:</b> <%= @user.sex %></p>
-                                  <p><b>Occupation:</b> <%= @user.occupation %></p>
-                              </div>
-
-                          <div class="ui divider"></div>
-
-                      </div>
-                  </div>
-
-                  <div class="friendslist">
-
-                      <h4 class="pi">Friends (<%= @user.friends.count %>) </h4>
-                      <div class="ui mini middle aligned selection list">
-                          <% @user.friends.each do |friend|%>
-                                  <div class="item">
-
-                                      <div class="right floated content">
-                                          <% if current_user.friends.include?(friend) || current_user == friend %>
-                                              <%= link_to "unfriend", friendship_path(:id => Friendship.find_by_user_id_and_friend_id(current_user, friend), :friend_id => friend.id), class: "mini ui grey basic button", method: :delete %>
-
-                                          <% else %>
-                                              <%= link_to "add", friendships_path(:friend_id => friend.id), class: "mini ui positive basic button", :method => :post %>
-                                          <% end %>
-
-                                      </div>
-
-                                      <%= image_tag friend.avatar.thumb.url, class: "ui avatar image" %>
-
-                                      <div class="content">
-                                          <%= link_to friend.name, user_path(friend) %>
-                                      </div>
-                                  </div>
-                          <%end%>
-                      </div>
-
-                  </div>
-              </div>
-              <!-- align close -->
-          </div>
-          <!-- user info close -->
-          <div class="timeline">
-
-              <div class = "timeline-header">
-                  <div class="ui statistics" id = "center-stats">
-                      <div class="statistic">
-                        <div class="value">
-                          <%= @user.posts.all.count %>
-                        </div>
-                        <div class="label">
-                          <%="Post".pluralize(@user.posts.all.count)%>
-                        </div>
-                      </div>
-                      <div class="statistic">
-                        <div class="value">
-                          <%=count_all_likes_of_posts_by(@user) %>
-                        </div>
-                        <div class="label">
-                          <%= "Like".pluralize(count_all_likes_of_posts_by(@user))%>
-                        </div>
-                      </div>
-                      <div class="statistic">
-                        <div class="value">
-                          <%=count_all_comments_of_posts_by(@user) %>
-                        </div>
-                        <div class="label">
-                          <%="Comment".pluralize(count_all_comments_of_posts_by(@user)) %>
-                        </div>
-                      </div>
-                    </div>
-              </div>
-
-              <div class="feed">
-
-                  <% if current_user?(@user) %>
-                      <div id="new-post">
-                          <%= render 'posts/post_form' %>
-                      </div>
-                  <% end %>
-
-                  <div id="posts">
-                      <%= render @posts %>
-                  </div>
-
-              </div>
-              <!-- feed close       -->
-          </div>
-          <!-- timeline close     -->
-
-      </div>
-      <!-- page content close     -->
+        </div>
+        <!-- feed close       -->
+    </div>
+    <!-- timeline close     -->
 
 </div>
-<!-- pusher close  -->
+<!-- page content close     -->

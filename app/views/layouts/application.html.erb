@@ -16,7 +16,44 @@
       <div class="alert alert-<%= message_type %>"><%= message %></div>
     <% end %>
 
-    <%= yield %>
+        <% if current_user %>
+            <div class="ui right inverted vertical menu sidebar">
+
+                <div class="item">
+                  <a class="small-avatar"><%= image_tag current_user.avatar.thumb.url%></a>
+                  <a class="menu-name"><%= current_user.name %></a>
+                </div>
+
+
+                <%= link_to "My profile", user_path(current_user.id), class: "item" %>
+                <%= link_to "All users", users_path, class: "item" %>
+                <%= link_to "Log out", destroy_user_session_path, :method => :delete, class: "item" %>
+
+
+            </div>
+
+            <div class="pusher">
+                  <div id="show-sidebar" class="button toggler">
+
+                    <div id="show-sidebar" class="ui vertical animated teal button" tabindex="0">
+                        <div class="hidden content">menu</div>
+                        <div class="visible content">
+                          <i class="user icon"></i>
+                        </div>
+                    </div>
+
+                  </div>
+
+
+              <%= yield %>
+
+          <!-- pusher close  -->
+          </div>
+      <% else %>
+          <%= yield %>
+
+      <% end %>
+
   </body>
 
 </html>

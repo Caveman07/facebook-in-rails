@@ -1,17 +1,17 @@
 class UsersController < ApplicationController
-  # def index
-  # end
+  def index
+    @users = User.all
+
+  end
 
   def show
-    #need to list all the posts
-    #need to list notifications
-    #need to list all the frinds or the link to all friends
-    #need to list its own info and picture
+
     @post = current_user.posts.build
     @user = User.find(params[:id])
     @posts = @user.posts.order(created_at: :desc)
     @comment = @post.comments.new
-    # @friendship = Friendship.find_by_user_id_and_friend_id(@user, User.find(params[:id]))
+    @feed_items = @user.collect_feed
+
   end
 
   def edit

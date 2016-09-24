@@ -22,14 +22,25 @@
         <%= user.friends.count %> Friends
       </span>
     </div>
-    <div class="ui bottom attached button">
-      <% if current_user.friends.include?(user) %>
-          <i class="minus icon"></i>
-          <%= link_to "Unfriend", friendship_path(:id => Friendship.find_by_user_id_and_friend_id(current_user, user), :friend_id => user.id), id: "deembutton", method: :delete %>
-      <% else %>
-          <i class="add icon"></i>
-          <%= link_to "Add Friend", friendships_path(:friend_id => user.id), id: "deembutton", :method => :post %>
 
-      <% end %>
+
+    <div class="ui bottom attached button">
+      <% unless user == current_user %>
+          <% if Friendship.friendship_exists?(current_user, user, "accepted") %>
+              <i class="minus icon"></i>
+              <%= link_to "Unfriend", friendship_path(:id => Friendship.find_by_user_id_and_friend_id(current_user, user), :friend_id => user.id), id: "deembutton", method: :delete %>
+
+          <% elsif Friendship.friendship_exists?(current_user, user, "pending") %>
+                <button class="mini ui grey basic disabled button">
+                      <i class="user icon"></i>
+                      Pending
+                </button>
+
+          <% else %>
+              <i class="add icon"></i>
+              <%= link_to "Add Friend", friendships_path(:friend_id => user.id), id: "deembutton", :method => :post %>
+
+          <% end %>
+      <% end %>    
     </div>
   </div>

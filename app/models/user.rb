@@ -14,7 +14,7 @@ class User < ApplicationRecord
   has_many :likes, :dependent => :destroy
   has_many :comments, :dependent => :destroy
 
-  validates_uniqueness_of :name, :case_sensitive => false
+  validates_uniqueness_of :email, :case_sensitive => false
   validate :avatar_size
 
   #avatar uploader
@@ -26,7 +26,7 @@ class User < ApplicationRecord
       user.email = auth.info.email
       user.password = Devise.friendly_token[0,20]
       user.name = auth.info.name   # assuming the user model has a name
-      user.image = auth.info.image # assuming the user model has an image
+      user.avatar = auth.info.image
     end
   end
 
@@ -41,6 +41,13 @@ class User < ApplicationRecord
   def age
     age = Date.today.year - self.dob
   end
+
+  def collect_feed
+    friends_ids = "SELECT friend_id FROM friendships
+                     WHERE  user_id = :user_id"
+    Post.where("user_id IN (#{friends_ids}) OR user_id = :user_id", user_id: id).order(created_at: :desc)
+  end
+
 
     private
 

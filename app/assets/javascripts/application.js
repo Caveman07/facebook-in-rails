@@ -27,3 +27,13 @@ $(function() {
      $('.menu.sidebar').sidebar('toggle');
    });
  });
+
+//  $('.special.cards .index-user-img').dimmer({
+//   on: 'hover'
+// });
+
+$(document).ready(function() {
+  $('.ui.sticky').sticky();
+  $('.menu .item')
+  .tab();
+});

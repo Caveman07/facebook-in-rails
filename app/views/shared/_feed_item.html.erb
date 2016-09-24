@@ -1,0 +1,69 @@
+<div id="post-frame">
+
+  <%#= link_to gravatar_for(post.user),post.user %>
+  <div class="post-info">
+      <%= image_tag feed_item.user.avatar.thumb.url, class: "post-user-image" %>
+
+      <div class="post-user-name-time">
+          <%= link_to feed_item.user.name, user_path(feed_item.user), class: "post-user-name" %>
+          <span class="post-time">
+            • <%= time_ago_in_words(feed_item.created_at)%> ago
+          </span>
+      </div>
+  </div>
+
+  <div class="ui divider"></div>
+
+  <span class="content">
+      <p class="post-body"><%= feed_item.body %></p>
+      <%#= image_tag micropost.picture.url if micropost.picture? %>
+  </span>
+  <div class="ui divider"></div>
+
+  <div class="post-action">
+
+      <div class="social">
+
+
+          <div class="likes" data-id="<%= post.id %>">
+              <i class="empty heart icon"></i>
+              <%= pluralize(feed_item.count_likes, "like") %>
+          </div>
+
+          <div class="manage-buttons">
+
+              <div id="delete-button">
+                  <% if current_user?(feed_item.user) %>
+                        <%= button_to "delete", feed_item, method: :delete, class: "mini ui grey basic button",
+                                                     data: { confirm: "You sure?" } %>
+                  <% end %>
+              </div>
+              <div id="like-button">
+                  <% if feed_item.liked_by?(current_user) %>
+                      <%= button_to "unlike", post_like_path(feed_item.id, feed_item.likes.find_by(user_id: current_user.id)),class: "mini ui grey button", method: :delete %>
+                  <% else %>
+                      <%= button_to "like", post_likes_path(feed_item.id), class: "mini ui teal button"%>
+                      <%#= button_to "comments", #some js action to open comments %>
+                  <% end %>
+              </div>
+          </div>
+
+
+      </div>
+
+  </div>
+
+
+      <div class="ui comments">
+          <h3 class="ui dividing header">Comments</h3>
+
+      <% if feed_item.comments.any? %>
+        <%= render partial: 'comments/comment', locals: {comments: feed_item.comments} %>
+      <% end %>
+
+      <%= render :partial => "comments/comment_form", locals: {comment: @comment, post: feed_item} %>
+
+
+    </div>
+
+</div>
