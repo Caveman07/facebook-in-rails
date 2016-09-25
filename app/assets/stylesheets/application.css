@@ -31,6 +31,16 @@
   border-bottom: 1px solid #DDDDDD;
 
 }
+
+.alert {
+  left: 200px;
+  right: auto;
+  position: absolute;
+  width: 500px;
+  z-index: 30;
+  color: #3bdfdc ;
+}
+
 #example2 {
   border-left: 1px solid #DDDDDD;
   height: 100vh;
