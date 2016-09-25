@@ -74,6 +74,14 @@ Rails.application.configure do
 
 
   config.action_mailer.default_url_options = { host: 'shielded-sea-67638.herokuapp.com' }
+      ActionMailer::Base.smtp_settings = {
+      :address => "smtp.sendgrid.net",
+      :port => 25,
+      :domain => "shielded-sea-67638.herokuapp.com",
+      :authentication => :plain,
+      :user_name => "ramzy07",
+      :password => "070490ram"
+    }
 
   config.assets.compile = true
   # Use a different logger for distributed setups.
