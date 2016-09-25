@@ -79,8 +79,8 @@ Rails.application.configure do
       :port => 25,
       :domain => "shielded-sea-67638.herokuapp.com",
       :authentication => :plain,
-      :user_name => "ramzy07",
-      :password => "070490ram"
+      :user_name => ENV['SNGRD_USR_NAME'],
+      :password => ENV['SNGRD_USR_PSWRD']
     }
 
   config.assets.compile = true
