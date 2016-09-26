@@ -1,5 +1,5 @@
 # UZLS Social network based on ruby-on-rails framework
-![screenshot](screenshot/home.png?raw=true "Optional Title")
+![screenshot](screenshots/homepage.png?raw=true "Optional Title")
 This is final project done as part of the Odin Project ruby-on-rails course.
 
 * Functionality: 
@@ -24,5 +24,5 @@ This is final project done as part of the Odin Project ruby-on-rails course.
 * Deployed on Heroku 
   You can access at: https://shielded-sea-67638.herokuapp.com
 #UI 
-  ![screenshot](screenshot/userpage.png?raw=true "Optional Title")
+  ![screenshot](screenshots/userpage.png?raw=true "Optional Title")
   
