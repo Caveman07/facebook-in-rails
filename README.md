@@ -1,25 +1,28 @@
-# README
+# UZLS Social network based on ruby-on-rails framework
+![screenshot](screenshot/home.png?raw=true "Optional Title")
+This is final project done as part of the Odin Project ruby-on-rails course.
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
-
-Things you may want to cover:
+* Functionality: 
+  -Devises gem User registration, email confirmation, password change/forget, Login/Logout, Omniauth Login/Signup with    Facebook
+  -Creating posts 
+  -Posting comments to posts
+  -Liking Posts
+  -Adding/confirming/deleting friends
+  -Listing all users of the network
+  -Uploading profile pictures (AWS cloud)
+  -Semantic UI
 
 * Ruby version
+  ruby 2.3.1p112
 
-* System dependencies
+* Rails version
+  Rails 5.0.0.1
 
-* Configuration
-
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
-# facebook-in-rails
+* Database 
+  Postgres
+  
+* Deployed on Heroku 
+  You can access at: https://shielded-sea-67638.herokuapp.com
+#UI 
+  ![screenshot](screenshot/userpage.png?raw=true "Optional Title")
+  
