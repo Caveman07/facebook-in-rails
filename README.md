@@ -1,6 +1,7 @@
 # UZLS Social network 
-![screenshot](screenshots/homepage.png?raw=true "Optional Title")
 This is final project done as part of the Odin Project ruby-on-rails course.
+![screenshot](screenshots/homepage.png?raw=true "Optional Title")
+
 
 #Functionality: 
   * Devises gem User registration, email confirmation, password change/forget, Login/Logout, Omniauth Login/Signup with    Facebook
@@ -20,9 +21,9 @@ This is final project done as part of the Odin Project ruby-on-rails course.
 
 # Database 
   Postgres
-  
-# Deployed on Heroku 
-  You can access at: https://shielded-sea-67638.herokuapp.com
-#UI 
+
+# UI 
   ![screenshot](screenshots/userpage.png?raw=true "Optional Title")
   
+# Deployed on Heroku 
+  You can access at: https://shielded-sea-67638.herokuapp.com  
