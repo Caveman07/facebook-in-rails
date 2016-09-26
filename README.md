@@ -5,7 +5,8 @@ This is final project done as part of the Odin Project ruby-on-rails course.
 
 #Functionality: 
   * Devise gem User registration, email confirmation, password change/forget, Login/Logout, Omniauth Login/Signup with    Facebook
-  * Creating posts 
+  * Creating posts
+  * Friends posts feed  
   * Posting comments to posts
   * Liking Posts
   * Adding/confirming/deleting friends
